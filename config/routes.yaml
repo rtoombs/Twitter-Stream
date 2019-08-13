@@ -1,0 +1,23 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+stream:
+  path: /
+  controller: App\Controller\StreamController::RenderPage
+
+stream_start:
+  path: /stream/start
+  controller: App\Controller\StreamController::Start
+
+stream_search:
+  path: /stream/search_user
+  controller: App\Controller\StreamController::SearchUser
+
+stream_filter:
+  path: /stream/filter
+  controller: App\Controller\StreamController::TwitterStream
+
+end_stream:
+  path: /stream/end
+  controller: App\Controller\StreamController::ClearSession

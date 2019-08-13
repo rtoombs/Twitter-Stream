@@ -1,0 +1,92 @@
+@font-face {
+    font-family: Helvetica Neue Bold;
+    src: url(../fonts/HelveticaNeueBold.ttf)
+}
+
+@font-face {
+    font-family: Helvetica Neue Regular;
+    src: url(../fonts/HelveticaNeue-Roman.otf)
+}
+
+.tweet-list {
+    list-style-type: none;
+}
+
+ul li {
+    margin: 15px 0;
+    width: 590px;
+}
+
+.tweet-queue-item {
+    border: 1px solid #afafaf;
+    border-radius: 5px;
+    padding: 6px;
+}
+
+.tweet-queue-item:hover {
+    background-color: #ececec;
+}
+
+.tweet-queue-item img {
+    border-radius: 50%;
+    float: left;
+    margin-right: 10px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-info p {
+    margin: 0;
+    font-family: 'Helvetica Neue Regular';
+    color: #1DA1F2;
+}
+
+.tweet-screen-name {
+    font-family: 'Helvetica Neue Regular' !important;
+    color: #1DA1F2 !important;
+    margin-right: 3px !important;
+}
+
+.tweet-username {
+    color: #14171A !important;
+    font-family: "Helvetica Neue Bold" !important;
+    font-size: 22px !important;
+}
+
+.inline-info {
+    display: flex;
+    align-items: baseline;
+}
+
+.tweet-timestamp {
+    margin-left: 3px;
+    font-family: 'Helvetica Neue Regular' !important;
+    color: #657786 !important;
+    font-size: 15px;
+}
+
+.tweet-expanded span {
+    color: #444444;
+    font-family: 'Helvetica Neue Regular';
+}
+
+/* RETWEETZ */
+
+.retweet-container {
+    margin-top: 7px;
+    border: 1px solid #afafaf;
+    border-radius: 5px;
+    padding: 6px;
+}
+
+.retweet-user-info {
+    display: flex;
+}
+
+.inline-info-retweet {
+    display: flex;
+    flex-direction: column;
+}

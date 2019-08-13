@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% block title %}Twitter Stream{% endblock %}
+
+
+{% block body %}
+    <div id="dev-area">
+        <button id="go-button">GO</button>
+        <button id="search-button">Search</button>
+        <button id="stream-button">STREAM</button>
+        <input type="text" id="input" name="fname">
+        <button id="test-button">FORMAT TESTING</button>
+    </div>
+    <br>
+{% endblock %}
+
+
+
+{% block tweet %}
+    <div id="tweet-user-container">
+        <ul data-bind="foreach: list" class="tweet-list">
+            <li>
+                <div class="tweet-queue-item" data-bind="attr: { id: id }">
+                    <img width="48px" data-bind="attr:{src: user.profile_image_url_https}">
+                    <div class="user-info">
+                        <span class="tweet-username" data-bind="text: user.name"> </span>
+                        <div class="inline-info">
+                            <a data-bind="attr: { href: user.profile_url }" target="_blank">
+                                <p>@<span class="tweet-screen-name" data-bind="text: user.screen_name"> </span></p>
+                            </a>
+                            <span class="tweet-timestamp" data-bind="text: formatted_date"> </span>
+                        </div>
+                        <div data-bind="if: $data.retweeted_status">
+                            <div class="tweet-expanded" id="retweet" style="display: none">
+                                <div class="retweet-container">
+                                    <img width="48px"
+                                         data-bind="attr:{src: $data.retweeted_status.user.profile_image_url_https}">
+                                    <div class="inline-info-retweet">
+                                        <span class="tweet-username"
+                                              data-bind="text: $data.retweeted_status.user.name"> </span>
+                                        <div class="retweet-user-info">
+                                            <a data-bind="attr: { href: $data.retweeted_status.user.profile_url }"
+                                               target="_blank">
+                                                <p>@<span class="tweet-screen-name"
+                                                          data-bind="text: $data.retweeted_status.user.screen_name"> </span>
+                                                </p>
+                                            </a>
+                                            <span class="tweet-timestamp"
+                                                  data-bind="text: $data.retweeted_status.formatted_date"> </span>
+                                        </div>
+                                        <span data-bind="text: $data.retweeted_status.text"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-bind="ifnot: $data.retweeted_status">
+                            <div class="tweet-expanded" style="display: none">
+                                <span data-bind="text: text"> </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
