@@ -4,15 +4,10 @@
 
 {% block body %}
     <div id="dev-area">
-        <button id="go-button">GO</button>
-        <button id="search-button">Search</button>
-        <button id="stream-button">STREAM</button>
-        <input type="text" id="input" name="fname">
-        <button id="test-button">FORMAT TESTING</button>
+
     </div>
     <br>
 {% endblock %}
-
 
 
 {% block tweet %}
@@ -61,5 +56,152 @@
                 </div>
             </li>
         </ul>
+    </div>
+{% endblock %}
+
+{% block container %}
+    <div id="container">
+        <div id="intro">
+            <div class="intro-band" id="title" style="display: none">
+                <div id="title-container">
+                    <div id="logo">
+                        <img src="images/twitter-logo.png">
+                    </div>
+                    <div id="title-text">
+                        <img src="images/logo-text.png">
+                    </div>
+                </div>
+            </div>
+            <div class="intro-band" id="description" style="display: none">
+                <p>This application is designed to interface with the Twitter streaming API. Please explore the
+                    functionality provided by this application to dive into the deepest recesses hiding on Twitter.
+                    Click 'Start' to start your journey.</p>
+            </div>
+            <div class="intro-band" id="start" style="display: none">
+                <div class="intro-button" id="start-button">
+                    <div class="button-container">
+                        <p>Start</p>
+                    </div>
+                </div>
+                <div class="intro-button" id="about-button">
+                    <div class="button-container">
+                        <p>About</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="about" style="display: none">
+                <img id="overlay-close-icon" src="images/close-icon.png">
+            </div>
+        </div>
+
+        <div id="application-selector" style="display: none;">
+            <div id="selector-text">
+                <p>What Would You Like To Do?</p>
+            </div>
+            <div id="selector-buttons">
+                <div class="selector-button" id="keyword-button">
+                    <div class="button-container">
+                        <p>Stream by Keyword</p>
+                    </div>
+                </div>
+                <div class="selector-button" id="location-button">
+                    <div class="button-container disabled">
+                        <p>Stream by Location</p>
+                    </div>
+                </div>
+                <div class="selector-button" id="search-button">
+                    <div class="button-container disabled">
+                        <p>Search by Keyword</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="keyword-stream-container" style="display: none;">
+            <div id="available-tweets">
+                <div id="available-tweets-text">
+                    <p>
+                        <img src="images/tweet-text.png">
+                    </p>
+                </div>
+                <div id="available-tweets-list">
+                    <div id="searching-gif" style="display: none">
+                        <img src="images/searching.gif">
+                    </div>
+                    <ul data-bind="foreach: list" class="tweet-list">
+                        <li>
+                            <div class="tweet-queue-item" data-bind="attr: { id: id }">
+                                <img width="48px" data-bind="attr:{src: user.profile_image_url_https}">
+                                <span class="tweet-username" data-bind="text: user.name"> </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="tweet-viewer-section">
+            <div id="options-expanded" style="display: none">
+                <div id="keyword-row">
+                <div id="keyword-text">
+                    <p>Words to Search For:</p>
+                </div>
+                    <input type="text" id="input" name="fname">
+                    <div id="stream-button" class="option-button">
+                        <p>Stream</p>
+                    </div>
+                    <div id="test-button" class="option-button">
+                        <p>Test Tweet</p>
+                    </div>
+                </div>
+            </div>
+                <div id="stream-tweet-options">
+                    <div id="options-expand-bar" class="collapsed">
+                        <img src="images/hamburger.png">
+                        <img id="expand-arrow" src="images/down-arrow.png">
+                        <img src="images/hamburger.png">
+                    </div>
+                </div>
+                <div id="selected-tweet-viewer-section" data-bind="with: selected">
+                    <div class="selected-tweet" data-bind="attr: { id: id }">
+                        <img width="48px" data-bind="attr:{src: user.profile_image_url_https}">
+                        <div class="content-align">
+                            <span class="tweet-username" data-bind="text: user.name"> </span>
+                            <div class="inline-info">
+                                <a data-bind="attr: { href: user.profile_url }" target="_blank">
+                                    <p>@<span class="tweet-screen-name" data-bind="text: user.screen_name"> </span></p>
+                                </a>
+                                <span class="tweet-timestamp" data-bind="text: formatted_date"> </span>
+                            </div>
+                            <div data-bind="if: retweeted_status">
+                                <div class="retweet-container">
+                                    <img width="48px"
+                                         data-bind="attr:{src: retweeted_status.user.profile_image_url_https}">
+                                    <div class="inline-info-retweet">
+                                        <span class="tweet-username"
+                                              data-bind="text: retweeted_status.user.name"> </span>
+                                        <div class="retweet-user-info">
+                                            <a data-bind="attr: { href: retweeted_status.user.profile_url }"
+                                               target="_blank">
+                                                <p>@<span class="tweet-screen-name"
+                                                          data-bind="text: retweeted_status.user.screen_name"> </span>
+                                                </p>
+                                            </a>
+                                            <span class="tweet-timestamp"
+                                                  data-bind="text: retweeted_status.formatted_date"> </span>
+                                        </div>
+                                        <span data-bind="text: retweeted_status.text"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-bind="ifnot: retweeted_status">
+                                <span data-bind="text: text"> </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 {% endblock %}

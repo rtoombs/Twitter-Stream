@@ -1,0 +1,212 @@
+@font-face {
+    font-family: Helvetica Neue Bold;
+    src: url(../fonts/HelveticaNeueBold.ttf)
+}
+
+@font-face {
+    font-family: Helvetica Neue Regular;
+    src: url(../fonts/HelveticaNeue-Roman.otf)
+}
+
+html {
+    height: 100%
+}
+
+body {
+    height: inherit;
+    background-color: #9dcdf7;
+}
+
+#container {
+    position: relative;
+    //width: 750px;
+    width: 1050px;
+    height: 525px;
+    border: 2px solid black;
+    box-shadow: 1px 1px 10px black;
+    border-radius: 5px;
+    margin: 0 auto;
+    //background-image: url("../images/app-background.png");
+
+    background: linear-gradient(318deg, #71cff5, #63c0ec, #439ed6, #55b0e2, #66c4ed, #71cef5);
+    background-size: 1200% 1200%;
+    -webkit-animation: GradientBackground 14s ease infinite;
+    animation: GradientBackground 14s ease infinite;
+}
+
+@-webkit-keyframes GradientBackground {
+    0%{background-position:15% 0%}
+    50%{background-position:86% 100%}
+    100%{background-position:15% 0%}
+}
+@keyframes GradientBackground {
+    0%{background-position:15% 0%}
+    50%{background-position:86% 100%}
+    100%{background-position:15% 0%}
+}
+
+#intro {
+    display: flex;
+    flex-direction: column;
+}
+
+#intro .intro-band {
+    //border: 1px solid red;
+    height: 175px;
+}
+
+#title-container {
+    //width: 600px;
+    height: 175px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#description {
+    display: flex;
+    align-items: center;
+    padding: 25px 25px;
+    text-align: center;
+    font-family: "Helvetica Neue Regular";
+    font-size: 20px;
+    color: white;
+}
+
+#description p {
+    //border: 1px solid black;
+    border-radius: 5px;
+    background-color: #429dd6;
+    padding: 15px;
+    box-shadow: 1px 1px 9px black;
+}
+
+#start {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.button-container {
+    height: 50px;
+    width: 110px;
+    border: 2px solid white;
+    border-radius: 5px;
+    margin: 0 15px;
+    box-shadow: 1px 1px 9px black;
+    //background-color: #63c0eb;
+}
+
+.button-container:hover {
+    cursor: pointer;
+    background-color: #429ed6;
+    box-shadow: 1px 1px 6px black;
+}
+
+.button-container p {
+    text-align: center;
+    padding-top: 7px;
+    font-family: "Helvetica Neue Bold";
+    color: white;
+    font-size: 21px;
+}
+
+#about {
+    width: 500px;
+    height: 400px;
+    background-color: rgba(223, 221, 221, 0.96);
+    position: absolute;
+    border-radius: 5px;
+    left: 240px;
+    top: 35px;
+}
+
+#overlay-close-icon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 30px;
+}
+
+#overlay-close-icon:hover {
+    cursor: pointer;
+}
+
+/* Selector Screen */
+
+#selector-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 90px;
+    padding-bottom: 25px;
+}
+
+#selector-text p {
+    font-family: "Helvetica Neue Bold";
+    font-size: 37px;
+    color: white;
+    user-select: none;
+}
+
+#selector-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.selector-button .button-container {
+    width: 167px;
+    height: 77px;
+}
+
+#selector-buttons .disabled {
+    background-color: #b5b5b5;
+    box-shadow: none;
+}
+
+#selector-buttons .disabled:hover {
+    cursor: auto;
+}
+
+#selector-buttons .disabled p {
+    color: #444444;
+    user-select: none;
+}
+
+/* Keyword Streamer */
+
+#keyword-stream-container {
+    display: flex;
+    height: 100%;
+}
+
+#available-tweets {
+    width: 65%;
+    height: 100%;
+    border-right: 1px solid #828181;
+    border-radius: 5px;
+    box-shadow: 1px 0px 5px black;
+    z-index: 9;
+}
+
+#available-tweets-list {
+    height: 450px;
+    overflow: overlay;
+}
+
+#available-tweets-text {
+    margin-bottom: 10px;
+}
+
+#available-tweets-text p {
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
+    border-bottom: 3px solid white;
+}
+
+#tweet-viewer-section {
+    width: 100%;
+    height: 100%;
+    background-color: #e0e0e0;
+}

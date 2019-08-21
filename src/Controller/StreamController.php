@@ -12,7 +12,7 @@ class StreamController extends AbstractController {
     public function __construct() {
         $Keys = file_get_contents(__DIR__."\KEYS.json");
         $array = json_decode($Keys, true);
-
+        //var_dump(session_status());
         if (session_status() == PHP_SESSION_NONE) {
             $_SESSION['stream'] = FALSE;
             session_start();

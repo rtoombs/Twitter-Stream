@@ -1,10 +1,9 @@
 var vm;
 var twitdata = [];
-var done = [];
+var list = [];
 
 function Tweet(json_data) {
 	let parse = JSON.parse(json_data);
-
 	if (typeof parse.extended_tweet !== 'undefined') {
         parse.text = parse.extended_tweet.full_text
     }
@@ -16,26 +15,38 @@ function Tweet(json_data) {
         parse.formatted_date = ' - Retweeted at: ' + format;
         parse.retweeted_status.user.profile_url = 'https://twitter.com/' + parse.retweeted_status.user.screen_name;
         let dateParseRetweet = dateFns.parse(parse.retweeted_status.created_at);
-        let formatRetweet = dateFns.format(dateParseRetweet, 'ddd MMM do YYYY h:mm:ss A');
+        let formatRetweet = dateFns.format(dateParseRetweet, 'h:mm:ss A • MMM D, YYYY');
         parse.retweeted_status.formatted_date = ' - Created at: ' + formatRetweet;
 
     } else {
         parse.formatted_date = ' - Created at: ' + format;
         parse.retweeted_status = null;
     }
+    list.push(parse);
+    if (list.length >= 1) {$("#searching-gif").hide();}
     return parse;
 }
 
 var ViewModel = function() {
     var self = this;
     this.list = ko.observableArray();
+    this.selected = ko.observable();
 
     this.addTweet = function(raw) {
         this.list.push(new Tweet(raw));
     }
+
+    this.selectTweet = function(data) {
+        this.selected(data);
+    }
+
+    this.clearSelected = function () {
+        this.selected(undefined);
+    }
 };
 
 $(document).ready(function() {
+    IntroFadeIn();
     vm = new ViewModel();
     ko.applyBindings(vm);
 
@@ -49,6 +60,7 @@ $(document).ready(function() {
 
     $('#stream-button').click(function() {
         let input = $('#input').val();
+        $("#searching-gif").show();
         StreamTwitter(input);
     });
 
@@ -56,15 +68,31 @@ $(document).ready(function() {
         FormatTesting();
     });
 
+    $("#overlay-close-icon").click(function () {
+        $("#about").fadeOut();
+    })
+
+    $("#about-button").click(function () {
+        $("#about").fadeIn();
+    })
+
+    $("#start-button").click(function () {
+        StartHandler();
+    })
+
+    $("#keyword-button").click(function () {
+        KeywordButtonHandler();
+    })
+
+    $("#options-expand-bar").click(function () {
+        ShowStreamOptions();
+    })
+
     $(document).on('click','.tweet-queue-item',function(){
         let ID = this.getAttribute('id');
-        let selected = '#' + ID + ' .tweet-expanded';
-
-        if ($(selected).hasClass('open')){
-            $(selected).slideUp().removeClass('open');
-        } else {
-            $(selected).slideDown().addClass('open');
-        }
+        vm.clearSelected();
+        //let selected = '#' + ID + ' .tweet-expanded';
+        FindTweet(ID);
     });
 
 });
@@ -171,4 +199,49 @@ function FormatTesting() {
 
     vm.addTweet(raw);
     console.log(vm.list());
+}
+
+function IntroFadeIn() {
+    $("#title").fadeIn(400, function () {
+        $("#description").fadeIn("slow", function () {
+            $("#start").fadeIn("slow");
+        });
+    });
+}
+
+function StartHandler() {
+    $("#intro").fadeOut("slow", function() {
+        $("#application-selector").fadeIn();
+    });
+}
+
+function KeywordButtonHandler() {
+    $("#application-selector").fadeOut(function () {
+        $("#keyword-stream-container").fadeIn( function () {
+            ShowStreamOptions();
+        });
+    })
+}
+
+function FindTweet(ID) {
+    intID = parseInt(ID);
+    for (let i = 0; i < list.length; ++i){
+        if (list[i].id_str == intID) {
+            vm.selectTweet(list[i]);
+        }
+    }
+}
+
+function ShowStreamOptions() {
+    if ($("#options-expand-bar").hasClass("collapsed")){
+        $("#options-expanded").slideDown(function () {
+            $("#expand-arrow").attr("src","images/up-arrow.png");
+        });
+        $("#options-expand-bar").removeClass("collapsed").addClass("expanded");
+    } else {
+        $("#options-expanded").slideUp(function () {
+            $("#expand-arrow").attr("src","images/down-arrow.png");
+        });
+        $("#options-expand-bar").removeClass("expanded").addClass("collapsed");
+    }
 }
