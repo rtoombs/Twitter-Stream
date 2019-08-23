@@ -175,6 +175,7 @@
 
 #keyword-text p {
     padding-left: 8px;
+    font-family: "Helvetica Neue Regular";
 }
 
 #tweet-viewer-section input[type=text] {
@@ -195,6 +196,14 @@
     border: 2px solid black;
     border-radius: 5px;
     box-shadow: 1px 1px 3px black;
+}
+
+.option-button.disabled {
+    background-color: #AAAAAA;
+}
+
+.option-button.disabled:hover {
+    background-color: #AAAAAA;
 }
 
 .option-button:hover {

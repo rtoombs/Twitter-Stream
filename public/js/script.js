@@ -2,6 +2,7 @@ var vm;
 var twitdata = [];
 var list = [];
 
+
 function Tweet(json_data) {
 	let parse = JSON.parse(json_data);
 	if (typeof parse.extended_tweet !== 'undefined') {
@@ -59,9 +60,19 @@ $(document).ready(function() {
     });
 
     $('#stream-button').click(function() {
-        let input = $('#input').val();
-        $("#searching-gif").show();
-        StreamTwitter(input);
+        let input = $('#input').val().trim();
+        if (input.length === 0) {
+            $("#input").css("border", "1px solid red");
+        } else {
+            $("#input").css("border", "1px solid #ccc");
+            if (!($("#stream-button").hasClass("disabled"))) {
+                $("#stream-button").addClass("disabled");
+                $("#searching-gif").show();
+                console.log('starting');
+                StreamTimerHandler();
+                StreamTwitter(input);
+            }
+        }
     });
 
     $('#test-button').click(function() {
@@ -154,6 +165,7 @@ function StreamTwitter(input) {
     })
         .done(function(data)
         {
+            $("#stream-button").removeClass("disabled");
             if (data !== '[SIP]'){
                 EndStream();
             }
@@ -244,4 +256,18 @@ function ShowStreamOptions() {
         });
         $("#options-expand-bar").removeClass("expanded").addClass("collapsed");
     }
+}
+
+function StreamTimerHandler() {
+    var timeleft = 30;
+    var downloadTimer = setInterval(function(){
+        //document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+        $("#stream-button p").text(timeleft);
+        timeleft -= 1;
+        if(timeleft <= 0){
+            clearInterval(downloadTimer);
+            $("#stream-button p").text("Stream");
+            //document.getElementById("countdown").innerHTML = "Finished"
+        }
+    }, 1000);
 }
