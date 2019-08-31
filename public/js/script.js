@@ -1,32 +1,7 @@
 var vm;
 var twitdata = [];
 var list = [];
-
-
-function Tweet(json_data) {
-	let parse = JSON.parse(json_data);
-	if (typeof parse.extended_tweet !== 'undefined') {
-        parse.text = parse.extended_tweet.full_text
-    }
-	parse.user.profile_url = 'https://twitter.com/' + parse.user.screen_name;
-
-	let dateParse = dateFns.parse(parse.created_at);
-    let format = dateFns.format(dateParse, 'h:mm:ss A');
-    if (typeof parse.retweeted_status !== 'undefined') {
-        parse.formatted_date = ' - Retweeted at: ' + format;
-        parse.retweeted_status.user.profile_url = 'https://twitter.com/' + parse.retweeted_status.user.screen_name;
-        let dateParseRetweet = dateFns.parse(parse.retweeted_status.created_at);
-        let formatRetweet = dateFns.format(dateParseRetweet, 'h:mm:ss A • MMM D, YYYY');
-        parse.retweeted_status.formatted_date = ' - Created at: ' + formatRetweet;
-
-    } else {
-        parse.formatted_date = ' - Created at: ' + format;
-        parse.retweeted_status = null;
-    }
-    list.push(parse);
-    if (list.length >= 1) {$("#searching-gif").hide();}
-    return parse;
-}
+var currentKeyword = '';
 
 var ViewModel = function() {
     var self = this;
@@ -34,7 +9,14 @@ var ViewModel = function() {
     this.selected = ko.observable();
 
     this.addTweet = function(raw) {
-        this.list.push(new Tweet(raw));
+        let obj = new Tweet(raw, currentKeyword);
+        if (obj.tweet !== null) {
+            list.push(obj.tweet);
+            if (list.length >= 1) {
+                $("#searching-gif").hide();
+            }
+            this.list.push(obj.tweet);
+        }
     }
 
     this.selectTweet = function(data) {
@@ -64,6 +46,7 @@ $(document).ready(function() {
         if (input.length === 0) {
             $("#input").css("border", "1px solid red");
         } else {
+            currentKeyword = input;
             $("#input").css("border", "1px solid #ccc");
             if (!($("#stream-button").hasClass("disabled"))) {
                 $("#stream-button").addClass("disabled");
@@ -261,13 +244,12 @@ function ShowStreamOptions() {
 function StreamTimerHandler() {
     var timeleft = 30;
     var downloadTimer = setInterval(function(){
-        //document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
         $("#stream-button p").text(timeleft);
         timeleft -= 1;
         if(timeleft <= 0){
             clearInterval(downloadTimer);
             $("#stream-button p").text("Stream");
-            //document.getElementById("countdown").innerHTML = "Finished"
         }
     }, 1000);
 }
+
