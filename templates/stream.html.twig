@@ -174,6 +174,9 @@
                                 <span class="tweet-timestamp" data-bind="text: formatted_date"> </span>
                             </div>
                             <div data-bind="if: retweeted_status">
+                                <div data-bind="if: quoted_status">
+                                    <span data-bind="html: text"> </span>
+                                </div>
                                 <div class="retweet-container">
                                     <img width="48px"
                                          data-bind="attr:{src: retweeted_status.user.profile_image_url_https}">
@@ -190,12 +193,12 @@
                                             <span class="tweet-timestamp"
                                                   data-bind="text: retweeted_status.formatted_date"> </span>
                                         </div>
-                                        <span data-bind="text: retweeted_status.text"> </span>
+                                        <span data-bind="html: retweeted_status.text"> </span>
                                     </div>
                                 </div>
                             </div>
                             <div data-bind="ifnot: retweeted_status">
-                                <span data-bind="text: text"> </span>
+                                <span data-bind="html: text"> </span>
                             </div>
                         </div>
                     </div>
