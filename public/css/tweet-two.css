@@ -182,6 +182,10 @@
     color: #429dd6;
 }
 
+.selected {
+    background-color: #429dd6;
+}
+
 #tweet-viewer-section input[type=text] {
     width: 38%;
     height: 20px;

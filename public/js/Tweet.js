@@ -65,14 +65,14 @@ class Tweet {
     }
 
     LocateKeywordRetweet(word) {
-        var regexp = new RegExp(word, "gi");
+        let regexp = new RegExp(word, "gi");
         let string = this.tweet.retweeted_status.text;
         let replace = '<b class="keyword">' + word + '</b>';
         this.tweet.retweeted_status.text = string.replace(regexp, replace);
     }
 
     LocateKeyword(word) {
-        var regexp = new RegExp(word, "gi");
+        let regexp = new RegExp(word, "gi");
         let string = this.tweet.text;
         let replace = '<b class="keyword">' + word + '</b>';
         this.tweet.text = string.replace(regexp, replace);

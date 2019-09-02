@@ -48,6 +48,7 @@ $(document).ready(function() {
         SearchUser();
     });
 
+    // Need to simplify this mess
     $('#stream-button').click(function() {
         let input = $('#input').val().trim();
         if (input.length === 0) {
@@ -71,6 +72,7 @@ $(document).ready(function() {
 
     $("#clear-button").click(function () {
         vm.clearList();
+        UnselectTweet();
     })
 
     $("#overlay-close-icon").click(function () {
@@ -95,8 +97,9 @@ $(document).ready(function() {
 
     $(document).on('click','.tweet-queue-item',function(){
         let ID = this.getAttribute('id');
+        UnselectTweet();
+        $("#"+ID).addClass("selected");
         vm.clearSelected();
-        //let selected = '#' + ID + ' .tweet-expanded';
         FindTweet(ID);
     });
 
@@ -130,8 +133,6 @@ function SearchUser() {
 }
 
 function StreamTwitter(input) {
-console.log(input);
-    var d = '';
     var last_response_len = false;
     $.ajax({url: '/stream/filter',
             type: 'POST',
@@ -219,6 +220,14 @@ function FormatTesting(test) {
         vm.addTweet(raw);
     }
     console.log(vm.list());
+}
+
+function UnselectTweet() {
+    $('.tweet-queue-item').each(function (index, element) {
+        if ($(this).hasClass("selected")) {
+            $(this).removeClass("selected");
+        }
+    })
 }
 
 function IntroFadeIn() {
