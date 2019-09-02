@@ -83,7 +83,6 @@ class TwitterAPI
         $request .= "Host: stream.twitter.com\r\n\r\n";
         //$request .= 'track=cookie';
 
-        register_shutdown_function([$this, 'Timeout']);
         fputs($fp, $request);
         stream_set_blocking($fp, 0);
 
@@ -123,71 +122,6 @@ class TwitterAPI
         fclose($fp);
     }
 
-    //WORKS
-    function StreamTakeTwo() {
-        $streamURL = 'https://stream.twitter.com/1.1/statuses/filter.json';
-        $auth = $this->AuthorizationBuilder($streamURL);
-        ob_start();
-        $headers = [
-            'Accept: */*',
-            'Connection: Open',
-            'User-Agent: RileySymfonyProject',
-            'Content-Type: application/x-www-form-urlencoded',
-            'Authorization: '. $auth,
-            'Host: stream.twitter.com'
-        ];
-        $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $streamURL);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "track=cookie");
-            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-            curl_setopt($ch, CURLOPT_CAINFO,  'C:\Users\ridid44\.symfony\certs\cacert.crt');
-            curl_setopt($ch,CURLOPT_CAPATH, 'C:\Users\ridid44\.symfony\certs\cacert.crt');
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-            curl_setopt($ch, CURLOPT_WRITEFUNCTION, function($curl, $data){
-                echo $data;
-                flush();
-                return strlen($data);
-            });
-            curl_exec($ch);
-            curl_close($ch);
-    }
-
-    //WORKS
-    function StreamTweets() {
-        $streamURL = 'https://stream.twitter.com/1.1/statuses/filter.json';
-        $auth = $this->AuthorizationBuilder($streamURL);
-        $httpClient = HttpClient::create(['http_version' => '1.1']);
-        $response = $httpClient->request('POST', 'https://stream.twitter.com/1.1/statuses/filter.json?track=cookie', [
-            'headers' => [
-                'Accept' => '*/*',
-                'Connection' => 'Keep-Alive',
-                'User-Agent' => 'RileySymfonyProject',
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'Authorization' => $auth,
-                'Content-Length' => 0,
-                'Host' => 'stream.twitter.com'
-            ],
-        ]);
-
-       //var_dump($response->getContent(false));
-        foreach ($httpClient->stream($response) as $chunk) {
-            echo($chunk->getContent());
-        }
-
-    }
-
-    function CallbackTest($curl, $data){
-        ob_get_clean();
-        var_dump($data);
-        //ob_flush();
-        flush();
-    }
-
     function AuthorizationBuilder($url, $search) {
         $nonce = 'kYjzVBb8Y0ZF7bxSWbWFvY3uQSQ2pTgmZeNu2VS4cg';
         $timestamp = time();
@@ -213,9 +147,5 @@ class TwitterAPI
             'oauth_version="1.0"';
 
         return $auth;
-    }
-
-    function Timeout() {
-        echo 'Script executed with success', PHP_EOL;
     }
 }

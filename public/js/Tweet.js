@@ -4,18 +4,15 @@ class Tweet {
     constructor(raw, keyword) {
         try {
             this.tweet = JSON.parse(raw);
-            // IF TOP LEVEL TWEET IS EXTENDED
             if (typeof this.tweet.extended_tweet !== 'undefined') {
                 this.SetExtendedTweet();
             }
             if (typeof this.tweet.quoted_status !== 'undefined'  && this.tweet.retweeted_status == null) {
-                console.log('most');
-                this.tweet.retweeted_status = this.tweet.quoted_status;
+                this.SetQuotedStatus();
             } else {
                 this.tweet.quoted_status = null;
             }
             if (typeof this.tweet.retweeted_status !== 'undefined'){
-                // IF RETWEETED TEXT IS EXTENDED
                 if (typeof this.tweet.retweeted_status.extended_tweet !== 'undefined'){
                     this.SetExtendedRetweet();
                 }
@@ -79,5 +76,9 @@ class Tweet {
         let string = this.tweet.text;
         let replace = '<b class="keyword">' + word + '</b>';
         this.tweet.text = string.replace(regexp, replace);
+    }
+
+    SetQuotedStatus() {
+        this.tweet.retweeted_status = this.tweet.quoted_status;
     }
 }
