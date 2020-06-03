@@ -48,7 +48,7 @@ class StreamController extends AbstractController {
         } else {
             return new Response('[SIP]');
         }
-        return new Response('gang shit');
+        return new Response('Good');
     }
 
     public function ClearSession() {
